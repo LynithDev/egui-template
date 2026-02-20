@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My egui app</title>
+    
+    <base data-trunk-public-url />
+    
+    <link data-trunk rel="icon" href="assets/favicon.ico">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#404040">
+    
+    <link data-trunk rel="rust" data-wasm-opt="3" />
+    <link data-trunk rel="copy-file" href="assets/sw.js"/>
+    <link data-trunk rel="copy-file" href="assets/manifest.json"/>
+    <link data-trunk rel="copy-file" href="assets/favicon-16x.png" data-target-path="assets"/>
+    <link data-trunk rel="copy-file" href="assets/favicon-32x.png" data-target-path="assets"/>
+    <link data-trunk rel="copy-file" href="assets/favicon-48x.png" data-target-path="assets"/>
+
+
+    <style>
+        html {
+            /* Remove touch delay: */
+            touch-action: manipulation;
+        }
+
+        body {
+            background: #909090;
+            color: #000000;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #1b1b1b;
+                color: #ffffff;
+            }
+        }
+
+        /* Allow canvas to fill entire web page: */
+        html,
+        body {
+            overflow: hidden;
+            margin: 0 !important;
+            padding: 0 !important;
+            height: 100%;
+            width: 100%;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        /* Make canvas fill entire document: */
+        canvas {
+            margin-right: auto;
+            margin-left: auto;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="app_canvas"></canvas>
+
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);" id="loading_text">
+        <noscript>You need javascript to use this website</noscript>
+        <p style="font-size: 16px;">
+            Loading...
+        </p>
+    </div>
+
+    <!--Register Service Worker. this will cache the wasm / js scripts for offline use (for PWA functionality). -->
+    <!-- Force refresh (Ctrl + F5) to load the latest files instead of cached files  -->
+    <script>
+        // We disable caching during development so that we always view the latest version.
+        if ('serviceWorker' in navigator && window.location.hash !== "#dev") {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+    </script>
+</body>
+
+</html>
