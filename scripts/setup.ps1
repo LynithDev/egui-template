@@ -40,4 +40,12 @@ if (-not (Get-Command trunk -ErrorAction SilentlyContinue)) {
     cargo binstall trunk -y
 }
 
+# --- Install rust-analyzer extension for VS Code if missing ---
+if (-not (Get-Command code -ErrorAction SilentlyContinue)) {
+    Write-Host "VS Code not found, skipping rust-analyzer extension installation"
+} else {
+    Write-Host "Installing rust-analyzer extension for VS Code"
+    code --install-extension rust-lang.rust-analyzer
+}
+
 Write-Host "Finished."
