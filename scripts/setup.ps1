@@ -48,4 +48,10 @@ if (-not (Get-Command code -ErrorAction SilentlyContinue)) {
     code --install-extension rust-lang.rust-analyzer
 }
 
-Write-Host "Finished."
+Write-Host "Finished installing."
+
+Write-Host "Pre-building native debug build"
+cargo build
+
+Write-Host "Pre-building web debug build"
+trunk build
